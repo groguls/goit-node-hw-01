@@ -16,17 +16,17 @@ const argv = program.opts();
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
-      const list = await actionHandler(contacts.listContacts);
+      const list = await handleAction(contacts.listContacts);
       console.table(list);
       break;
 
     case "get":
-      const requestedContact = await actionHandler(contacts.getContactById, id);
+      const requestedContact = await handleAction(contacts.getContactById, id);
       console.log(requestedContact);
       break;
 
     case "add":
-      const newContact = await actionHandler(
+      const newContact = await handleAction(
         contacts.addContact,
         name,
         email,
@@ -36,7 +36,7 @@ async function invokeAction({ action, id, name, email, phone }) {
       break;
 
     case "remove":
-      const removedContact = await actionHandler(contacts.removeContact, id);
+      const removedContact = await handleAction(contacts.removeContact, id);
       console.log("Deleted record: ", removedContact);
       break;
 
@@ -45,7 +45,7 @@ async function invokeAction({ action, id, name, email, phone }) {
   }
 }
 
-async function actionHandler(actionCallback, ...args) {
+async function handleAction(actionCallback, ...args) {
   try {
     return args ? await actionCallback(...args) : await actionCallback();
   } catch (error) {
